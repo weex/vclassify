@@ -12,7 +12,7 @@ from glob import glob
 from tqdm import tqdm
 
 # open the .txt file which have names of training videos
-f = open("ucfTrainTestlist/trainlist01.txt", "r")
+f = open("ucfTrainTestlist/20percent_trainlist01.txt", "r")
 temp = f.read()
 videos = temp.split('\n')
 
@@ -47,14 +47,14 @@ for i in tqdm(range(train.shape[0])):
             break
         if (frameId % math.floor(frameRate) == 0):
             # storing the frames in a new folder named train_1
-            filename ='train_1/' + videoFile.split('/')[1].split(' ')[0] +"_frame%d.jpg" % count;count+=1
+            filename ='20percent_train_1/' + videoFile.split('/')[1].split(' ')[0] +"_frame%d.jpg" % count;count+=1
             cv2.imwrite(filename, frame)
     cap.release()
 
 
 
 # getting the names of all the images
-images = glob("train_1/*.jpg")
+images = glob("20percent_train_1/*.jpg")
 train_image = []
 train_class = []
 for i in tqdm(range(len(images))):
@@ -69,7 +69,7 @@ train_data['image'] = train_image
 train_data['class'] = train_class
 
 # converting the dataframe into csv file 
-train_data.to_csv('Videos/train_new.csv',header=True, index=False)
+train_data.to_csv('Videos/20percent_train_new.csv',header=True, index=False)
 
 
 # creating an empty list
@@ -78,7 +78,7 @@ train_image = []
 # for loop to read and store frames
 for i in tqdm(range(train_data.shape[0])):
     # loading the image and keeping the target size as (224,224,3)
-    img = image.load_img('train_1/'+train_data['image'][i], target_size=(224,224,3))
+    img = image.load_img('20percent_train_1/'+train_data['image'][i], target_size=(224,224,3))
     # converting it to array
     img = image.img_to_array(img)
     # normalizing the pixel value
